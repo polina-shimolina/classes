@@ -24,7 +24,7 @@ namespace Serialization
     {
         static void Main(string[] args)
         {
-            List<string> people = new List<string>();
+            List<Person> people = new List<Person>();
             BinaryFormatter formatter = new BinaryFormatter();
             int l = 0;
 
@@ -43,8 +43,7 @@ namespace Serialization
                         {
                             name = Console.ReadLine();
                             age = Console.ReadLine();
-                            Person people[k] = new Person(name, age);
-                            k++;
+                            people.Add(new Person(name, age));
                             break;
                         }
 
@@ -59,7 +58,7 @@ namespace Serialization
                         }
                     case 3:
                         {
-                            Person person = new Person(name, age);
+                            
                             formatter = new BinaryFormatter();
                             using (FileStream fs = new FileStream("people.dat", FileMode.OpenOrCreate))
                             {
@@ -75,7 +74,7 @@ namespace Serialization
                                 Person[] deserilizePeople = (Person[])formatter.Deserialize(fs);
                                 foreach (Person p in deserilizePeople)
                                 {
-                                    Console.WriteLine($"Имя: {p.Name} --- Возраст: {p.Age}");
+                                    Console.WriteLine($"Имя: {p.Name} --- Возраст: {p.Age}");//записать в лист??? очистить лист перед этим
                                 }
                             }
                             break;
