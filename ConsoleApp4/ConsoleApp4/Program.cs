@@ -24,11 +24,11 @@ namespace Serialization
     {
         static void Main(string[] args)
         {
-
             List<string> people = new List<string>();
-            List<string> ages = new List<string>();
-            
+            BinaryFormatter formatter = new BinaryFormatter();
+            int l = 0;
 
+            int k = 0;
             string name ="";
             int n = 0;
 
@@ -40,33 +40,46 @@ namespace Serialization
                 switch (n)
                 {
                     case 1:
-                        name = Console.ReadLine();
-                        age = Console.ReadLine();
-                        ages.Add(age);
-                        people.Add(name); 
-                        break;
-                    case 2:
-                        for (int i = 0; i < people.Count; i++)
                         {
-                            Console.WriteLine(people[i]);
-                            Console.WriteLine(ages[i]);
-                        }
-                        break;
-                    case 3:
-                        Person person = new Person(name, age);
-                        BinaryFormatter formatter = new BinaryFormatter();
-                        using (FileStream fs = new FileStream("people.dat", FileMode.OpenOrCreate))
-                        {
-                            formatter.Serialize(fs, person);
-                        }
-                        break;
-                    case 4:
-                        using (FileStream fs = new FileStream("people.dat", FileMode.OpenOrCreate))
-                        {
-                            Person newPerson = (Person)formatter.Deserialize(fs);
-                            Console.WriteLine($"Имя: {newPerson.Name} Возраст: {newPerson.Age}");
-                        }
+                            name = Console.ReadLine();
+                            age = Console.ReadLine();
+                            Person people[k] = new Person(name, age);
+                            k++;
                             break;
+                        }
+
+                    case 2:
+                        {
+                            for (int i = 0; i < people.Count; i++)
+                            {
+                                Console.WriteLine(people[i].Name);
+                                Console.WriteLine(people[i].Age);
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            Person person = new Person(name, age);
+                            formatter = new BinaryFormatter();
+                            using (FileStream fs = new FileStream("people.dat", FileMode.OpenOrCreate))
+                            {
+                                formatter.Serialize(fs, people);
+                            }
+                            break;
+                        }
+                    case 4:
+                        {
+                            formatter = new BinaryFormatter();
+                            using (FileStream fs = new FileStream("people.dat", FileMode.OpenOrCreate))
+                            {
+                                Person[] deserilizePeople = (Person[])formatter.Deserialize(fs);
+                                foreach (Person p in deserilizePeople)
+                                {
+                                    Console.WriteLine($"Имя: {p.Name} --- Возраст: {p.Age}");
+                                }
+                            }
+                            break;
+                        }
                     case 5:
                         break;
                     default:
